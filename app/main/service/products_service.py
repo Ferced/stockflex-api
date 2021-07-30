@@ -3,6 +3,7 @@ import datetime
 import requests
 from app.main import db
 from app.main.model.products import Products
+from app.main.helpers.constants.constants_general import ConstantsGeneral
 from typing import Dict, Tuple
 
 #TRANSFORMAR EN CLASS
@@ -22,40 +23,26 @@ def get_new_product(data,path,ip,method):
             response_status = response_status,
             method=method,
         )
-
-        save_changes(new_product)
-
         
+        save_changes(new_product) 
         return response_object,response_status
 
     except Exception as e:
+        response_status = 500
         response_object = {
-            'status': 'fail',
-            'message': 'internal proxy error.',
-            'error_message':e
+            'message': 'internal proxy error',
+            'error':e,
+            'status': response_status,
         }
-        return response_object, 500
+        return response_object, response_status
+
 def get_meli_api(path,data):
-    url = "https://api.mercadolibre.com/"+path
+    url = ConstantsGeneral.url_api_meli+path
     params = data
     resp = requests.get(url=url, params=params)
     response_object = resp.json()
     return response_object
     
-
-# def get_all_products():
-#     return Products.query.all()
-
-
-# def get_a_product(product_id):
-#     return Products.query.filter_by(product_id=product_id).first()
-
-
-# #borrar
-# def get_a_product_by_id(id):
-#     return Products.query.filter_by(id=id).first()
-
-
 def save_changes(data: Products) -> None:
     db.session.add(data)
     db.session.commit()
