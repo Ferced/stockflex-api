@@ -6,7 +6,7 @@ from app.main.model.products import Products
 from typing import Dict, Tuple
 
 #TRANSFORMAR EN CLASS
-def get_new_product(data,path,ip):
+def get_new_product(data,path,ip,method):
     try:
         time_request_start = datetime.datetime.utcnow()
         response_object =  get_meli_api(path,data)
@@ -19,7 +19,8 @@ def get_new_product(data,path,ip):
             time_finished = datetime.datetime.utcnow(),
             request = str(data),
             response = str(response_object),
-            response_status = response_status
+            response_status = response_status,
+            method=method,
         )
 
         save_changes(new_product)
@@ -30,10 +31,10 @@ def get_new_product(data,path,ip):
     except Exception as e:
         response_object = {
             'status': 'fail',
-            'message': 'Product already exists.',
+            'message': 'internal proxy error.',
             'error_message':e
         }
-        return response_object, 409
+        return response_object, 500
 def get_meli_api(path,data):
     url = "https://api.mercadolibre.com/"+path
     params = data

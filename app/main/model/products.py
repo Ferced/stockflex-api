@@ -16,3 +16,4 @@ class Products(db.Model):
     request = db.Column(db.String(5000), nullable=True)
     response = db.Column(db.String(5000), nullable=False)
     response_status = db.Column(db.Integer, nullable=False)
+    method = db.Column(db.String(50), nullable=False)
