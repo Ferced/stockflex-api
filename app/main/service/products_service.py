@@ -9,19 +9,18 @@ from typing import Dict, Tuple
 #TRANSFORMAR EN CLASS
 def get_new_product(data,path,ip,method):
     try:
-        time_request_start = datetime.datetime.utcnow()
-        response_object =  get_meli_api(path,data)
-        response_status = response_object['status']
+        time_request_start = datetime.datetime.now()
+        response_object,response_status =  get_meli_api(path,data)
 
         new_product = Products(
             path = path,
             ip = ip,
             time_started = time_request_start,
-            time_finished = datetime.datetime.utcnow(),
+            time_finished = datetime.datetime.now(),
             request = str(data),
             response = str(response_object),
             response_status = response_status,
-            method=method,
+            method=method
         )
         
         save_changes(new_product) 
@@ -41,7 +40,7 @@ def get_meli_api(path,data):
     params = data
     resp = requests.get(url=url, params=params)
     response_object = resp.json()
-    return response_object
+    return response_object,resp.status_code
     
 def save_changes(data: Products) -> None:
     db.session.add(data)

@@ -1,13 +1,16 @@
+from datetime import datetime,timedelta
+
 from app.main.model.products import Products
 from app.main.helpers.constants.constants_general import ConstantsLimiter
 from typing import Dict, Tuple
+
 
 class Limiter:
     @staticmethod
     def ip_limiter(request):
         try:
             # fetch the products data
-            products = Products.query.filter_by(ip=request.remote_addr).all()
+            products = Products.query.filter(Products.ip==request.remote_addr,Products.time_finished >= datetime.now() - timedelta(hours=1) ).all()
             if len(products)>ConstantsLimiter.ip_limit_per_hour:
                 response_object = {
                     'status': 'fail',

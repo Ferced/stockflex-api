@@ -1,17 +1,16 @@
 from flask import request
 from flask_restx import Resource
 
-from app.main.util.decorator import admin_token_required
-from ..util.dto import ProductDto
+from ..util.dto import HistoryDto,ProductsDto
 from ..service.history_service import get_all_history, get_history_by_id
 from typing import Dict, Tuple
 
-api = ProductDto.api
-_product = ProductDto.product
+api = HistoryDto.api
+_product = ProductsDto.products
 
 
 
-@api.route('/')
+@api.route('/history')
 class HistoryList(Resource):
     @api.doc('list of history')
     #@admin_token_required
