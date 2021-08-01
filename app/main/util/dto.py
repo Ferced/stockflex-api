@@ -1,11 +1,11 @@
 from flask_restx import Namespace, fields
 
 class HistoryDto:
-    api = Namespace('/history', description='product related operations')
+    api = Namespace('/access_logs', description='history related operations')
     
-class ProductsDto:
-    api = Namespace('/', description='product related operations')
-    products = api.model('auth_details', {
+class AccessLogDto:
+    api = Namespace('/', description='AccessLog related operations')
+    access_log = api.model('access_log_details', {
         'id': fields.Integer(required=True, description='id primarykey'),
         'path': fields.String(required=True, description='path provided by the user'),
         'ip': fields.String(required=True, description='ip from the user'),

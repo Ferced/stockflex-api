@@ -18,14 +18,14 @@ def create_connection(db_file):
     return conn
 
 
-def select_all_products(conn):
+def select_all_access_logs(conn):
     """
-    Query all rows in the products table
+    Query all rows in the access_logs table
     :param conn: the Connection object
     :return:
     """
     cur = conn.cursor()
-    cur.execute("SELECT * FROM products")
+    cur.execute("SELECT * FROM access_logs")
 
     rows = cur.fetchall()
 
@@ -71,7 +71,7 @@ def main():
     # create a database connection
     conn = create_connection(database)
     # select_table_names(conn)
-    select_all_products(conn)
+    select_all_access_logs(conn)
     #select_table_names(conn)
 
 if __name__ == '__main__':

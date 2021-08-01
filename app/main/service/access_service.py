@@ -2,17 +2,17 @@ import uuid
 import datetime
 import requests
 from app.main import db
-from app.main.model.products import Products
+from app.main.model.access_logs import AccessLogs
 from app.main.helpers.constants.constants_general import ConstantsGeneral
 from typing import Dict, Tuple
 
 #TRANSFORMAR EN CLASS
-def get_new_product(data,path,ip,method):
+def get_new_access(data,path,ip,method):
     try:
         time_request_start = datetime.datetime.now()
-        response_object,response_status =  get_meli_api(path,data)
+        response_object,response_status =  get_meli_api(path,data,method)
 
-        new_product = Products(
+        new_access_log = AccessLogs(
             path = path,
             ip = ip,
             time_started = time_request_start,
@@ -23,7 +23,7 @@ def get_new_product(data,path,ip,method):
             method=method
         )
         
-        save_changes(new_product) 
+        save_changes(new_access_log) 
         return response_object,response_status
 
     except Exception as e:
@@ -35,14 +35,14 @@ def get_new_product(data,path,ip,method):
         }
         return response_object, response_status
 
-def get_meli_api(path,data):
+def get_meli_api(path,data,method):
     url = ConstantsGeneral.url_api_meli+path
     params = data
-    resp = requests.get(url=url, params=params)
+    resp = requests.request(method,url=url,params=params)
     response_object = resp.json()
     return response_object,resp.status_code
     
-def save_changes(data: Products) -> None:
+def save_changes(data: AccessLogs) -> None:
     db.session.add(data)
     db.session.commit()
 

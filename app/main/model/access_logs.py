@@ -4,9 +4,9 @@ from ..config import key
 from typing import Union
 
 
-class Products(db.Model):
-    """ Products Model for storing products"""
-    __tablename__ = "products"
+class AccessLogs(db.Model):
+    """ Products Model for storing access_logs """
+    __tablename__ = "access_logs"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     path = db.Column(db.String(1000), nullable=False)

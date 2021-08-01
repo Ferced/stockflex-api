@@ -1,6 +1,6 @@
 from datetime import datetime,timedelta
 
-from app.main.model.products import Products
+from app.main.model.access_logs import AccessLogs
 from app.main.helpers.constants.constants_general import ConstantsLimiter
 from typing import Dict, Tuple
 
@@ -9,9 +9,9 @@ class Limiter:
     @staticmethod
     def ip_limiter(request):
         try:
-            # fetch the products data
-            products = Products.query.filter(Products.ip==request.remote_addr,Products.time_finished >= datetime.now() - timedelta(hours=1) ).all()
-            if len(products)>ConstantsLimiter.ip_limit_per_hour:
+            # fetch the access log data
+            access_log = AccessLogs.query.filter(AccessLogs.ip==request.remote_addr,AccessLogs.time_finished >= datetime.now() - timedelta(hours=1) ).all()
+            if len(access_log)>ConstantsLimiter.ip_limit_per_hour:
                 response_object = {
                     'status': 'fail',
                     'message': 'Too many re quests'
@@ -35,9 +35,9 @@ class Limiter:
     @staticmethod
     def path_limiter(request):
         try:
-            # fetch the products data
-            products = Products.query.filter_by(path=request.path[1:]).all()
-            if len(products)>ConstantsLimiter.path_limit_per_hour:
+            # fetch the access_log data
+            access_log = AccessLogs.query.filter_by(path=request.path[1:]).all()
+            if len(access_log)>ConstantsLimiter.path_limit_per_hour:
                 response_object = {
                     'status': 'fail', 
                     'message': 'Too many requests'
