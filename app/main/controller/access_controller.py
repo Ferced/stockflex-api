@@ -3,7 +3,7 @@ from flask_restx import Resource
 
 from app.main.util.decorator import ip_limiter,path_limiter
 from ..util.dto import AccessLogsDto
-from ..service.access_service import get_new_access
+from ..service.access_service import AccessService
 from typing import Dict, Tuple
 
 api = AccessLogsDto.api
@@ -18,7 +18,7 @@ class Access(Resource):
         data = request.json
         ip=request.remote_addr
         method=request.method
-        response = get_new_access(data,path,ip,method)
+        response = AccessService.get_new_access(data,path,ip,method)
         return response
 
     @api.doc('get mercado libre api')
@@ -28,7 +28,7 @@ class Access(Resource):
         data = request.json
         ip=request.remote_addr
         method=request.method
-        response = get_new_access(data,path,ip,method)
+        response = AccessService.get_new_access(data,path,ip,method)
         return response
 
     @api.doc('get mercado libre api')
@@ -38,7 +38,7 @@ class Access(Resource):
         data = request.json
         ip=request.remote_addr
         method=request.method
-        response = get_new_access(data,path,ip,method)
+        response = AccessService.get_new_access(data,path,ip,method)
         return response
     
     @api.doc('get mercado libre api')
@@ -48,5 +48,5 @@ class Access(Resource):
         data = request.json
         ip=request.remote_addr
         method=request.method
-        response = get_new_access(data,path,ip,method)
+        response = AccessService.get_new_access(data,path,ip,method)
         return response
