@@ -1,9 +1,9 @@
 from flask_restx import Namespace, fields
 
-class HistoryDto:
-    api = Namespace('/access_logs', description='history related operations')
+class LogsDto:
+    api = Namespace('/access_logs', description='Logs related operations')
     
-class AccessLogDto:
+class AccessLogsDto:
     api = Namespace('/', description='AccessLog related operations')
     access_log = api.model('access_log_details', {
         'id': fields.Integer(required=True, description='id primarykey'),

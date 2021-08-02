@@ -2,11 +2,11 @@ from flask import request
 from flask_restx import Resource
 
 from app.main.util.decorator import ip_limiter,path_limiter
-from ..util.dto import AccessLogDto
+from ..util.dto import AccessLogsDto
 from ..service.access_service import get_new_access
 from typing import Dict, Tuple
 
-api = AccessLogDto.api
+api = AccessLogsDto.api
 
 @api.route('/', defaults={'path': ''})
 @api.route('/<path:path>')

@@ -70,7 +70,7 @@ def main():
 
     # create a database connection
     conn = create_connection(database)
-    # select_table_names(conn)
+    select_table_names(conn)
     select_all_access_logs(conn)
     #select_table_names(conn)
 

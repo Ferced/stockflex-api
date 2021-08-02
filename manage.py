@@ -15,7 +15,7 @@ app.register_blueprint(blueprint)
 
 app.app_context().push()
 
-db.create_all()
+#db.create_all()
 
 manager = Manager(app)
 

@@ -1,12 +1,12 @@
 from flask import request
 from flask_restx import Resource
 
-from ..util.dto import HistoryDto,AccessLogDto
+from ..util.dto import LogsDto,AccessLogsDto
 from ..service.access_logs_service import get_all_logs, get_logs_by_id, get_logs_by_ip,get_logs_ip_count,get_logs_path_count,get_logs_method_count,get_logs_date_count
 from typing import Dict, Tuple
 
-api = HistoryDto.api
-_access_log = AccessLogDto.access_log
+api = LogsDto.api
+_access_log = AccessLogsDto.access_log
 
 @api.route('/access_logs/')
 class AccessLogsList(Resource):
