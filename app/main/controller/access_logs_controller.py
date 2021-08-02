@@ -12,7 +12,6 @@ _access_log = AccessLogsDto.access_log
 @api.route("/access_logs/")
 class AccessLogsList(Resource):
     @api.doc("list of logs")
-    # @admin_token_required
     @api.marshal_list_with(_access_log, envelope="data")
     def get(self):
         """List all logs"""
@@ -22,7 +21,6 @@ class AccessLogsList(Resource):
 @api.route("/access_logs/all_errors")
 class AccessLogsList(Resource):
     @api.doc("list of logs errors")
-    # @admin_token_required
     @api.marshal_list_with(_access_log, envelope="data")
     def get(self):
         """List all logs"""
