@@ -4,7 +4,7 @@ from sqlite3 import Error
 
 
 def create_connection(db_file):
-    """ create a database connection to the SQLite database
+    """create a database connection to the SQLite database
         specified by the db_file
     :param db_file: database file
     :return: Connection object or None
@@ -34,12 +34,13 @@ def select_all_access_logs(conn):
 
 
 def select_table_names(conn):
-    cur=conn.cursor()
+    cur = conn.cursor()
     cur.execute("SELECT name FROM sqlite_master WHERE type='table';")
     rows = cur.fetchall()
-    
+
     for row in rows:
         print(row)
+
 
 def select_task_by_priority(conn, priority):
     """
@@ -56,9 +57,10 @@ def select_task_by_priority(conn, priority):
     for row in rows:
         print(row)
 
-def insert_into_table(conn,table_name):
-    cur=conn.cursor()
-    cur.execute(f'PRAGMA table_info({table_name});')
+
+def insert_into_table(conn, table_name):
+    cur = conn.cursor()
+    cur.execute(f"PRAGMA table_info({table_name});")
     rows = cur.fetchall()
     for row in rows:
         print(row)
@@ -66,13 +68,14 @@ def insert_into_table(conn,table_name):
 
 def main():
     basedir = os.path.abspath(os.path.dirname(__file__))
-    database = r'reverse-proxy-meli.db'
+    database = r"reverse-proxy-meli.db"
 
     # create a database connection
     conn = create_connection(database)
     select_table_names(conn)
     select_all_access_logs(conn)
-    #select_table_names(conn)
+    # select_table_names(conn)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
