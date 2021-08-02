@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 from app.main.model.access_logs import AccessLogs
-from app.main.helpers.constants.constants_general import ConstantsLimiter
+from app.main.helpers.constants.constants_general import LimiterConstants
 from typing import Dict, Tuple
 
 
@@ -14,7 +14,7 @@ class Limiter:
                 AccessLogs.ip == request.remote_addr,
                 AccessLogs.time_finished >= datetime.now() - timedelta(hours=1),
             ).all()
-            if len(access_log) > ConstantsLimiter.ip_limit_per_hour:
+            if len(access_log) > LimiterConstants.ip_limit_per_hour:
                 response_object = {"status": "fail", "message": "Too many re quests"}
                 return response_object, 429
             else:
@@ -30,7 +30,7 @@ class Limiter:
         try:
             # fetch the access_log data
             access_log = AccessLogs.query.filter_by(path=request.path[1:]).all()
-            if len(access_log) > ConstantsLimiter.path_limit_per_hour:
+            if len(access_log) > LimiterConstants.path_limit_per_hour:
                 response_object = {"status": "fail", "message": "Too many requests"}
                 return response_object, 429
             else:

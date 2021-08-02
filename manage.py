@@ -28,7 +28,7 @@ manager.add_command("db", MigrateCommand)
 def run():
     app.run(host="192.168.0.248", port="5000")
 
-
+6
 @manager.command
 def test():
     """Runs the unit tests."""

@@ -3,7 +3,7 @@ import datetime
 import requests
 from app.main import db
 from app.main.model.access_logs import AccessLogs
-from app.main.helpers.constants.constants_general import ConstantsGeneral
+from app.main.helpers.constants.constants_general import GeneralConstants
 from typing import Dict, Tuple
 
 
@@ -41,7 +41,7 @@ class AccessService:
 
     @staticmethod
     def get_meli_api(path, data, method):
-        url = ConstantsGeneral.url_api_meli + path
+        url = GeneralConstants.url_api_meli + path
         params = data
         resp = requests.request(method, url=url, params=params)
         response_object = resp.json()
