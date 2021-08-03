@@ -20,7 +20,7 @@ class ProxyService:
             access_log = AccessLog(
                 path=path,
                 ip=ip,
-                request_start_time=request_start_time, 
+                request_start_time=request_start_time,
                 request_end_time=datetime.datetime.now(),
                 request=str(data),
                 response=str(response_object),

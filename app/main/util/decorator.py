@@ -14,7 +14,9 @@ def ip_limiter(f: Callable) -> Callable:
             status = HTTPStatus.TOO_MANY_REQUESTS
             return response_object, status
         return f(*args, **kwargs)
+
     return decorated
+
 
 def path_limiter(f: Callable) -> Callable:
     @wraps(f)

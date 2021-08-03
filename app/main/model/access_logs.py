@@ -16,6 +16,6 @@ class AccessLog(db.Model):
     response = db.Column(db.String(5000), nullable=False)
     response_status = db.Column(db.Integer, nullable=False)
     method = db.Column(db.String(50), nullable=False)
-    
+
     def __getitem__(self, key):
         return self.__dict__[key]

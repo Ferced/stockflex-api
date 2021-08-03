@@ -15,8 +15,9 @@ class AccessLogList(Resource):
     @api.marshal_list_with(_access_log, envelope="data")
     def get(self):
         """List all logs"""
-        access_logs=AccessLogsService.get_all_logs(request)
+        access_logs = AccessLogsService.get_all_logs(request)
         return access_logs
+
 
 @api.route("/access_logs/all_errors")
 class AccessLogList(Resource):
@@ -32,7 +33,7 @@ class AccessLogList(Resource):
 @api.response(404, "AccessLog not found.")
 class AccessLogCount(Resource):
     @api.doc("get a access_log count")
-    def get(self,column):
+    def get(self, column):
         """get a access_log count"""
         path_count = AccessLogsService.get_logs_count(column)
         path_count = dict(path_count)
@@ -40,6 +41,7 @@ class AccessLogCount(Resource):
             api.abort(404)
         else:
             return path_count
+
 
 @api.route("/access_logs/after_date_all/<date>")
 @api.param("date", "The AccessLog date")
