@@ -3,13 +3,13 @@ import unittest
 import datetime
 
 from app.main import db
-from app.main.model.access_logs import AccessLogs
+from app.main.model.access_logs import AccessLog
 from app.test.base import BaseTestCase
 
 
 class TestUserModel(BaseTestCase):
     def test_access_logs_model(self):
-        access_log = AccessLogs(
+        access_log = AccessLog(
             path="/sites/",
             ip="122.051.2.405",
             time_started=datetime.datetime.now(),

@@ -19,12 +19,10 @@ class AccessLogsDto:
                 required=True, description="Time requested by proxy"
             ),
             "time_finished": fields.DateTime(
-                required=True, description="Time response by meli"
+                required=True, description="Response Time"
             ),
             "request": fields.String(required=True, description="request by the user"),
-            "response": fields.String(
-                required=True, description="response by meli api"
-            ),
+            "response": fields.String(required=True, description="response api"),
             "response_status": fields.String(
                 required=True, description="response status by meli api"
             ),

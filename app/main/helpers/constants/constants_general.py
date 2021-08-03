@@ -5,3 +5,4 @@ class GeneralConstants:
 class LimiterConstants:
     ip_limit_per_hour = 500
     path_limit_per_hour = 500
+    combo_limit_per_hour = 500

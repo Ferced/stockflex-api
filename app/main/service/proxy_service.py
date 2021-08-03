@@ -1,46 +1,47 @@
 import uuid
 import datetime
 import requests
+from http import HTTPStatus
 from app.main import db
-from app.main.model.access_logs import AccessLogs
+from app.main.model.access_logs import AccessLog
 from app.main.helpers.constants.constants_general import GeneralConstants
 from typing import Dict, Tuple
 
 
-class AccessService:
+class ProxyService:
     @staticmethod
-    def get_new_access(data, path, ip, method):
+    def handle_request(data, path, ip, method):
         try:
-            time_request_start = datetime.datetime.now()
-            response_object, response_status = AccessService.get_meli_api(
+            request_start_time = datetime.datetime.now()
+            response_object, response_status = ProxyService.forward_request(
                 path, data, method
             )
 
-            new_access_log = AccessLogs(
+            access_log = AccessLog(
                 path=path,
                 ip=ip,
-                time_started=time_request_start,
-                time_finished=datetime.datetime.now(),
+                request_start_time=request_start_time, 
+                request_end_time=datetime.datetime.now(),
                 request=str(data),
                 response=str(response_object),
                 response_status=response_status,
                 method=method,
             )
 
-            AccessService.save_changes(new_access_log)
+            ProxyService.store(access_log)
             return response_object, response_status
 
         except Exception as e:
-            response_status = 500
+            response_status = HTTPStatus.INTERNAL_SERVER_ERROR
             response_object = {
-                "message": "internal proxy error",
+                "message": "internal error",
                 "error": e,
                 "status": response_status,
             }
             return response_object, response_status
 
     @staticmethod
-    def get_meli_api(path, data, method):
+    def forward_request(path, data, method):
         url = GeneralConstants.url_api_meli + path
         params = data
         resp = requests.request(method, url=url, params=params)
@@ -48,6 +49,6 @@ class AccessService:
         return response_object, resp.status_code
 
     @staticmethod
-    def save_changes(data: AccessLogs) -> None:
+    def store(data: AccessLog) -> None:
         db.session.add(data)
         db.session.commit()
