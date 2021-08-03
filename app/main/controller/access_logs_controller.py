@@ -3,7 +3,6 @@ from flask_restx import Resource
 
 from ..util.dto import LogsDto, AccessLogsDto
 from ..service.access_logs_service import AccessLogsService
-from typing import Dict, Tuple
 
 api = LogsDto.api
 _access_log = AccessLogsDto.access_log

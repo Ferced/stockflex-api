@@ -4,7 +4,6 @@ from flask_restx import Resource
 from app.main.util.decorator import ip_limiter, path_limiter
 from ..util.dto import AccessLogsDto
 from ..service.proxy_service import ProxyService
-from typing import Dict, Tuple
 
 api = AccessLogsDto.api
 

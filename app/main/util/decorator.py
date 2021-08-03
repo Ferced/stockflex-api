@@ -9,6 +9,7 @@ def ip_limiter(f: Callable) -> Callable:
     @wraps(f)
     def decorated(*args, **kwargs):
         is_ip_allowed = RateLimit.is_ip_allowed(request)
+
         if not is_ip_allowed:
             response_object = {"status": "error", "message": "Too many requests"}
             status = HTTPStatus.TOO_MANY_REQUESTS
@@ -24,6 +25,21 @@ def path_limiter(f: Callable) -> Callable:
         is_path_allowed = RateLimit.is_path_allowed(request)
 
         if not is_path_allowed:
+            response_object = {"status": "error", "message": "Too many requests"}
+            status = HTTPStatus.TOO_MANY_REQUESTS
+            return response_object, status
+
+        return f(*args, **kwargs)
+
+    return decorated
+
+
+def combo_limiter(f: Callable) -> Callable:
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        is_combo_allowed = RateLimit.is_combo_allowed(request)
+
+        if not is_combo_allowed:
             response_object = {"status": "error", "message": "Too many requests"}
             status = HTTPStatus.TOO_MANY_REQUESTS
             return response_object, status
