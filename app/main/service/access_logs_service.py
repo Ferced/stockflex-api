@@ -24,14 +24,14 @@ class AccessLogsService:
     def get_all_logs_errors():
         return AccessLog.query.filter(
             AccessLog.response_status != 200
-        ).all()  # a chequear
+        ).all()
 
     @staticmethod
     def get_logs_count(column):
         return (
             AccessLog.query.with_entities(
                 getattr(AccessLog, column), func.count(getattr(AccessLog, column))
-            )  # posible filtro count
+            ) 
             .group_by(getattr(AccessLog, column))
             .all()
         )
