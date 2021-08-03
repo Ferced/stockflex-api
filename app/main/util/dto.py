@@ -15,10 +15,10 @@ class AccessLogsDto:
                 required=True, description="path provided by the user"
             ),
             "ip": fields.String(required=True, description="ip from the user"),
-            "time_started": fields.DateTime(
+            "request_start_time": fields.DateTime(
                 required=True, description="Time requested by proxy"
             ),
-            "time_finished": fields.DateTime(
+            "request_end_time": fields.DateTime(
                 required=True, description="Response Time"
             ),
             "request": fields.String(required=True, description="request by the user"),

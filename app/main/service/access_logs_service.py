@@ -22,7 +22,7 @@ class AccessLogsService:
 
     @staticmethod
     def get_all_logs_errors():
-        return AccessLog.query.filter(AccessLog.response_status[0] != 2).all() #a chequear 
+        return AccessLog.query.filter(AccessLog.response_status != 200).all() #a chequear 
 
     @staticmethod
     def get_logs_count(column):
