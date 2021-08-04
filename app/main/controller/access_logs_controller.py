@@ -6,7 +6,7 @@ from ..service.access_logs_service import AccessLogsService
 
 api = LogsDto.api
 _access_log = AccessLogsDto.access_log
-
+8
 
 @api.route("/access_logs/")
 class AccessLogList(Resource):
