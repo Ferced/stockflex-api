@@ -1,37 +1,32 @@
-import uuid
-import datetime
-import requests
-from sqlalchemy import func
+from mongoengine.queryset.visitor import Q
 from app.main import db
-from app.main.model.access_logs import AccessLog
-from typing import Dict, Tuple
+from app.main.model.access_logs_model import AccessLog
 
 
 class AccessLogsService:
     @staticmethod
     def get_all_logs(request):
-        return AccessLog.query.filter_by(**request.args).all()
+        all_access_logs = [
+            access_log.to_json() for access_log in AccessLog.objects(**request.args)
+        ]
+        return all_access_logs
 
     @staticmethod
-    def get_logs_after_date_all(date):
-        return AccessLog.query.filter(AccessLog.time_started >= date).all()
-
-    @staticmethod
-    def get_logs_date_count(date):
-        return AccessLog.query.filter(AccessLog.time_started >= date).all()
+    def get_logs_after_date(date):
+        all_access_logs = [
+            access_log.to_json()
+            for access_log in AccessLog.objects((Q(request_start_time__gte=date)))
+        ]
+        return all_access_logs
 
     @staticmethod
     def get_all_logs_errors():
-        return AccessLog.query.filter(
-            AccessLog.response_status != 200
-        ).all()
+        all_access_logs = [
+            access_log.to_json()
+            for access_log in AccessLog.objects(response_status__ne=200)
+        ]
+        return all_access_logs
 
     @staticmethod
     def get_logs_count(column):
-        return (
-            AccessLog.query.with_entities(
-                getattr(AccessLog, column), func.count(getattr(AccessLog, column))
-            ) 
-            .group_by(getattr(AccessLog, column))
-            .all()
-        )
+        return AccessLog.objects.item_frequencies(column)

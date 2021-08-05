@@ -6,7 +6,7 @@ from ..service.access_logs_service import AccessLogsService
 
 api = LogsDto.api
 _access_log = AccessLogsDto.access_log
-8
+
 
 @api.route("/access_logs/")
 class AccessLogList(Resource):
@@ -50,8 +50,5 @@ class AccessLogCount(Resource):
     @api.marshal_with(_access_log)
     def get(self, date):
         """get a access_log given its method"""
-        access_log = AccessLogsService.get_logs_after_date_all(date)
-        if not access_log:
-            api.abort(404)
-        else:
-            return access_log
+        access_log = AccessLogsService.get_logs_after_date(date)
+        return access_log

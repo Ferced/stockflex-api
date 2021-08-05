@@ -4,6 +4,7 @@ from app.main.helpers.rate_limit import RateLimit
 from flask import request
 from typing import Callable
 
+
 def ip_limiter(f: Callable) -> Callable:
     @wraps(f)
     def decorated(*args, **kwargs):

@@ -3,12 +3,20 @@ import datetime
 import requests
 from http import HTTPStatus
 from app.main import db
-from app.main.model.access_logs import AccessLog
+from app.main.model.access_logs_model import AccessLog
 from app.main.helpers.constants.constants_general import GeneralConstants
 from typing import Dict, Tuple
 
 
 class ProxyService:
+    @staticmethod
+    def forward_request(path, data, method):
+        url = GeneralConstants.url_api_meli + path
+        params = data
+        resp = requests.request(method, url=url, params=params)
+        response_object = resp.json()
+        return response_object, resp.status_code
+
     @staticmethod
     def handle_request(data, path, ip, method):
         try:
@@ -28,7 +36,7 @@ class ProxyService:
                 method=method,
             )
 
-            ProxyService.store(access_log)
+            access_log.save()
             return response_object, response_status
 
         except Exception as e:
@@ -39,16 +47,3 @@ class ProxyService:
                 "status": response_status,
             }
             return response_object, response_status
-
-    @staticmethod
-    def forward_request(path, data, method):
-        url = GeneralConstants.url_api_meli + path
-        params = data
-        resp = requests.request(method, url=url, params=params)
-        response_object = resp.json()
-        return response_object, resp.status_code
-
-    @staticmethod
-    def store(data: AccessLog) -> None:
-        db.session.add(data)
-        db.session.commit()

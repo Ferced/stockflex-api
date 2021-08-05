@@ -16,10 +16,6 @@ class TestDevelopmentConfig(TestCase):
     def test_app_is_development(self):
         self.assertTrue(app.config["DEBUG"] is True)
         self.assertFalse(current_app is None)
-        self.assertTrue(
-            app.config["SQLALCHEMY_DATABASE_URI"]
-            == "sqlite:///" + os.path.join(basedir, "reverse_proxy_meli.db")
-        )
 
 
 class TestTestingConfig(TestCase):
@@ -29,10 +25,6 @@ class TestTestingConfig(TestCase):
 
     def test_app_is_testing(self):
         self.assertTrue(app.config["DEBUG"])
-        self.assertTrue(
-            app.config["SQLALCHEMY_DATABASE_URI"]
-            == "sqlite:///" + os.path.join(basedir, "reverse_proxy_meli.db")
-        )
 
 
 class TestProductionConfig(TestCase):

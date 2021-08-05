@@ -10,20 +10,14 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(
-        basedir, "reverse-proxy-meli.db"
-    )
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    MONGOENGINE_DATABASE_URI = "mongodb://0.0.0.0:2717/reverse-proxy-test"
 
 
 class TestingConfig(Config):
     DEBUG = True
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(
-        basedir, "reverse-proxy-meli.db"
-    )
+    MONGOENGINE_DATABASE_URI = "mongodb://0.0.0.0:2717/reverse-proxy-test"
     PRESERVE_CONTEXT_ON_EXCEPTION = False
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class ProductionConfig(Config):

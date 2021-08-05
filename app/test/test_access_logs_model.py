@@ -3,7 +3,7 @@ import unittest
 import datetime
 
 from app.main import db
-from app.main.model.access_logs import AccessLog
+from app.main.model.access_logs_model import AccessLog
 from app.test.base import BaseTestCase
 
 
@@ -19,9 +19,7 @@ class TestUserModel(BaseTestCase):
             response_status=200,
             method="get",
         )
-
-        db.session.add(access_log)
-        db.session.commit()
+        access_log.save()
         self.assertTrue(True)
 
 
