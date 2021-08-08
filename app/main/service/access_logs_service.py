@@ -1,5 +1,4 @@
 from mongoengine.queryset.visitor import Q
-from app.main import db
 from app.main.model.access_logs_model import AccessLog
 
 

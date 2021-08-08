@@ -10,17 +10,29 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    MONGOENGINE_DATABASE_URI = "mongodb://0.0.0.0:2717/reverse-proxy-test"
-
+    MONGODB_HOST = "mongodb"
+    MONGODB_PORT = 27017
+    MONGODB_NAME = "reverse-proxy"
+    REDIS_HOST = "redis"
+    REDIS_PORT = "6379"
 
 class TestingConfig(Config):
     DEBUG = True
     TESTING = True
-    MONGOENGINE_DATABASE_URI = "mongodb://0.0.0.0:2717/reverse-proxy-test"
+    MONGODB_HOST = "mongodb"
+    MONGODB_PORT = 27017
+    MONGODB_NAME = "reverse-proxy"
+    REDIS_HOST = "redis"
+    REDIS_PORT = "6379"
     PRESERVE_CONTEXT_ON_EXCEPTION = False
 
 
 class ProductionConfig(Config):
+    MONGODB_HOST = "mongodb"
+    MONGODB_PORT = 27017
+    MONGODB_NAME = "reverse-proxy"
+    REDIS_HOST = "redis"
+    REDIS_PORT = "6379"
     DEBUG = False
 
 

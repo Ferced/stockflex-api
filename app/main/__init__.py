@@ -1,18 +1,20 @@
 import mongoengine as db
-from flask import Flask
 from flask.app import Flask
-from flask_bcrypt import Bcrypt
-
+from redis import Redis
+import os
 from .config import config_by_name
-
-flask_bcrypt = Bcrypt()
 
 
 def create_app(config_name: str) -> Flask:
     app = Flask(__name__)
     app.config.from_object(config_by_name[config_name])
-    # TODO: pasar la url de mongo a un config o algo ni idea.
-    db.connect(host="mongodb://0.0.0.0:2717/reverse-proxy-test")
-    flask_bcrypt.init_app(app)
-
+    
     return app
+
+class Connections():
+    config_name = os.getenv("REVERSEPROXY_ENV") or "dev"
+    config = config_by_name[config_name]
+
+    redis_client = Redis(host=config.REDIS_HOST, port=config.REDIS_PORT, db=0)
+
+    db.connect(config.MONGODB_NAME,host=config.MONGODB_HOST,port=config.MONGODB_PORT)

@@ -8,7 +8,7 @@ from typing import Callable
 def ip_limiter(f: Callable) -> Callable:
     @wraps(f)
     def decorated(*args, **kwargs):
-        is_ip_allowed = RateLimit.is_ip_allowed(request)
+        is_ip_allowed = RateLimit.is_ip_allowed(request.remote_addr)
 
         if not is_ip_allowed:
             response_object = {"status": "error", "message": "Too many requests"}
@@ -22,7 +22,7 @@ def ip_limiter(f: Callable) -> Callable:
 def path_limiter(f: Callable) -> Callable:
     @wraps(f)
     def decorated(*args, **kwargs):
-        is_path_allowed = RateLimit.is_path_allowed(request)
+        is_path_allowed = RateLimit.is_path_allowed(request.path)
 
         if not is_path_allowed:
             response_object = {"status": "error", "message": "Too many requests"}
@@ -34,10 +34,25 @@ def path_limiter(f: Callable) -> Callable:
     return decorated
 
 
-def combo_limiter(f: Callable) -> Callable:
+def ip_path_combo_limiter(f: Callable) -> Callable:
     @wraps(f)
     def decorated(*args, **kwargs):
-        is_combo_allowed = RateLimit.is_combo_allowed(request)
+        is_combo_allowed = RateLimit.is_combo_allowed(request.remote_addr, request.path)
+
+        if not is_combo_allowed:
+            response_object = {"status": "error", "message": "Too many requests"}
+            status = HTTPStatus.TOO_MANY_REQUESTS
+            return response_object, status
+
+        return f(*args, **kwargs)
+
+    return decorated
+
+
+def method_path_combo_limiter(f: Callable) -> Callable:
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        is_combo_allowed = RateLimit.is_combo_allowed(request.path, request.method)
 
         if not is_combo_allowed:
             response_object = {"status": "error", "message": "Too many requests"}

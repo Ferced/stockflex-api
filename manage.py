@@ -2,11 +2,10 @@ import os
 import unittest
 from flask_cors import CORS
 from flask_script import Manager
-
 from app import blueprint
 from app.main import create_app
 
-app = create_app(os.getenv("BOILERPLATE_ENV") or "dev")
+app = create_app(os.getenv("REVERSEPROXY_ENV") or "dev")
 
 CORS(app)
 
