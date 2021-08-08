@@ -15,38 +15,26 @@ class ProxyController(Resource):
     @path_limiter
     @ip_path_combo_limiter
     def get(self, path):
-        data = request.json
-        ip = request.remote_addr
-        method = request.method
-        response = ProxyService.handle_request(data, path, ip, method)
+        response = ProxyService.handle_request(request)
         return response
 
     @ip_limiter
     @path_limiter
     @ip_path_combo_limiter
     def post(self, path):
-        data = request.json
-        ip = request.remote_addr
-        method = request.method
-        response = ProxyService.handle_request(data, path, ip, method)
+        response = ProxyService.handle_request(request)
         return response
 
     @ip_limiter
     @path_limiter
     @ip_path_combo_limiter
     def put(self, path):
-        data = request.json
-        ip = request.remote_addr
-        method = request.method
-        response = ProxyService.handle_request(data, path, ip, method)
+        response = ProxyService.handle_request(request)
         return response
 
     @ip_limiter
     @path_limiter
     @ip_path_combo_limiter
     def delete(self, path):
-        data = request.json
-        ip = request.remote_addr
-        method = request.method
-        response = ProxyService.handle_request(data, path, ip, method)
+        response = ProxyService.handle_request(request)
         return response

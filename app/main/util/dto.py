@@ -10,7 +10,6 @@ class AccessLogsDto:
     access_log = api.model(
         "access_log_details",
         {
-            "id": fields.Integer(required=True, description="id primarykey"),
             "path": fields.String(
                 required=True, description="path provided by the user"
             ),
