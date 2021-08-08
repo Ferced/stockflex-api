@@ -18,6 +18,6 @@ services:
     environment:
       - MONGO_INITDB_DATABASE=reverse-proxy
     volumes:
-      - /home/ferced/Desktop/Projects/challenge-meli/mongodb-docker:/data/db
+      - ../mongodb-docker:/data/db
     ports:
       - 27017:27017

@@ -10,18 +10,18 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    MONGODB_HOST = "0.0.0.0"
-    MONGODB_PORT = 2718
+    MONGODB_HOST = "mongodb"
+    MONGODB_PORT = 27017
     MONGODB_NAME = "reverse-proxy"
-    REDIS_HOST = "0.0.0.0"
-    REDIS_PORT = "7001"
+    REDIS_HOST = "redis"
+    REDIS_PORT = "6379"
 
 
 class TestingConfig(Config):
     DEBUG = True
     TESTING = True
-    MONGODB_HOST = "0.0.0.0"
-    MONGODB_PORT = 2718
+    MONGODB_HOST = "mongodb"
+    MONGODB_PORT = 27017
     MONGODB_NAME = "reverse-proxy"
     REDIS_HOST = "redis"
     REDIS_PORT = "6379"
