@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from .. import Connections
+from .. import redis_client
 import json
 from app.main.helpers.constants.constants_general import LimiterConstants
 
@@ -10,7 +10,7 @@ class RateLimit:
         limit = LimiterConstants.ip_limit
         period = timedelta(seconds=LimiterConstants.ip_limit_period)
         return RateLimit.request_is_not_limited(
-            Connections.redis_client, ip, limit, period
+            redis_client, ip, limit, period
         )
 
     @staticmethod
@@ -18,16 +18,16 @@ class RateLimit:
         limit = LimiterConstants.path_limit
         period = timedelta(seconds=LimiterConstants.path_limit_period)
         return RateLimit.request_is_not_limited(
-            Connections.redis_client, path, limit, period
+            redis_client, path, limit, period
         )
 
     @staticmethod
     def is_combo_allowed(key1, key2):
         limit = LimiterConstants.combo_limit
         period = timedelta(seconds=LimiterConstants.combo_limit_period)
-        key = "{%s:%s}" % (key1, key2)
+        key = f'{key1}:{key2}'
         return RateLimit.request_is_not_limited(
-            Connections.redis_client, key, limit, period
+            redis_client, key, limit, period
         )
 
     @staticmethod
@@ -39,7 +39,7 @@ class RateLimit:
             redis_client.decrby(redis_key, 1)
             return True
         return False
-
+    
     @staticmethod
     def is_blacklisted(redis_client, redis_key):
 
