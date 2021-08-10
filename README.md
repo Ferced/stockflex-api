@@ -7,9 +7,7 @@
 # About the project
  
 This is a reverse proxy made for the meli interview challenge.
-### Diagram
 
-Diagram image here
 
 ### Built With
 
