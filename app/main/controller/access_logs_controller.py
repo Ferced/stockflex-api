@@ -1,6 +1,6 @@
 from flask import request
 from flask_restx import Resource
-
+from app.main.util.decorator import ip_path_combo_limiter, ip_limiter, path_limiter
 from ..util.dto import LogsDto, AccessLogsDto
 from ..service.access_logs_service import AccessLogsService
 
@@ -10,6 +10,9 @@ _access_log = AccessLogsDto.access_log
 
 @api.route("/access_logs/")
 class AccessLogList(Resource):
+    @ip_limiter
+    @path_limiter
+    @ip_path_combo_limiter
     @api.doc("list of logs")
     @api.marshal_list_with(_access_log, envelope="data")
     def get(self):
@@ -20,6 +23,9 @@ class AccessLogList(Resource):
 
 @api.route("/access_logs/all_errors")
 class AccessLogList(Resource):
+    @ip_limiter
+    @path_limiter
+    @ip_path_combo_limiter
     @api.doc("list of logs errors")
     @api.marshal_list_with(_access_log, envelope="data")
     def get(self):
@@ -31,6 +37,9 @@ class AccessLogList(Resource):
 @api.param("column", "The AccessLog column")
 @api.response(404, "AccessLog not found.")
 class AccessLogCount(Resource):
+    @ip_limiter
+    @path_limiter
+    @ip_path_combo_limiter
     @api.doc("get a access_log count")
     def get(self, column):
         """get a access_log count"""
@@ -46,6 +55,9 @@ class AccessLogCount(Resource):
 @api.param("date", "The AccessLog date")
 @api.response(404, "AccessLog not found.")
 class AccessLogCount(Resource):
+    @ip_limiter
+    @path_limiter
+    @ip_path_combo_limiter
     @api.doc("get a access_log after the date")
     @api.marshal_with(_access_log)
     def get(self, date):
