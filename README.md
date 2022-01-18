@@ -1,12 +1,12 @@
-# reverse-proxy-meli
+# cornalito-api
 
-![Github last commit](https://img.shields.io/github/last-commit/ferced/reverse-proxy-meli)
+![Github last commit](https://img.shields.io/github/last-commit/ferced/cornalito-api)
 
 
 
 # About the project
  
-This is a reverse proxy made for the meli interview challenge.
+This is the api made for cornalito.
 
 
 ### Built With
@@ -31,7 +31,7 @@ We will be using docker and docker-compose.
 
 1. Clone the repo
   ```sh
-  git clone https://github.com/ferced/reverse-proxy-meli.git
+  git clone https://github.com/ferced/cornalito-api.git
   ```
 2. cd Into the repository folder
   ```sh
