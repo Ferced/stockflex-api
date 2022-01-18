@@ -5,11 +5,13 @@ from flask_script import Manager
 from app import blueprint
 from app.main import create_app
 
-env_name= "test"
+env_name = "test"
 
 app = create_app()
 
 CORS(app)
+
+app.config["CORS_HEADERS"] = "Content-Type"
 
 app.register_blueprint(blueprint)
 
@@ -20,7 +22,8 @@ manager = Manager(app)
 
 @manager.command
 def run():
-    app.run(host="0.0.0.0", port="8000")
+    app.run(host="0.0.0.0", port="3031")
+
 
 @manager.command
 def test():

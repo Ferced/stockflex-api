@@ -1,16 +1,18 @@
-version: '3'
+version: "3"
 
 services:
-  api:
-    build: .
-    ports:
-      - 8000:8000
-    links:
-      - db
-      - redis
-     
+  # api:
+  #   build: .
+  #   ports:
+  #     - 8000:8000
+  #   links:
+  #     - db
+  #     - redis
+
   redis:
     image: "redis:alpine"
+    ports:
+      - 6379:6379
 
   db:
     image: "mongo:latest"

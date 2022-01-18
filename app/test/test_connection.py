@@ -39,11 +39,14 @@ class TestAccessBlueprint(BaseTestCase):
 
     def test_connection_redis(self):
         """Test for connection to meli api"""
-        cache_log_path="/sites/"
+        cache_log_path = "/sites/"
         cache_log_limit = 10
-        redis_client = redis.Redis(host = app.config['REDIS_HOST'],port=app.config['REDIS_PORT'])
-        redis_client.set(cache_log_path,cache_log_limit)
+        redis_client = redis.Redis(
+            host=app.config["REDIS_HOST"], port=app.config["REDIS_PORT"]
+        )
+        redis_client.set(cache_log_path, cache_log_limit)
         self.assertTrue(int(redis_client.get(cache_log_path)) == cache_log_limit)
+
 
 if __name__ == "__main__":
     unittest.main()
