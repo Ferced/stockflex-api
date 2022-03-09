@@ -34,10 +34,18 @@ def save_new_product(request):
 
 
 def get_all_products(request):
-    data = request.args.to_dict()
-    data = ast.literal_eval(str(data).replace("[", "__").replace("]", ""))
-    all_products = [product.to_json() for product in Product.objects.filter(**data)]
-    return all_products
+    try:
+        data = request.args.to_dict()
+        data = ast.literal_eval(str(data).replace("[", "__").replace("]", ""))
+        all_products = [product.to_json() for product in Product.objects.filter(**data)]
+        return all_products
+    except Exception as e:
+        response_object = {
+            "status": "fail",
+            "message": "Some error occurred. Please try again.",
+            "description": str(e),
+        }
+        return response_object, 500
 
 
 def update_product(data):

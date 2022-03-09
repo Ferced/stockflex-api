@@ -8,36 +8,52 @@ import ast
 
 
 def save_new_client(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
-    client = Client.objects(business_name=data["business_name"]).first()
+    try:
+        client = Client.objects(business_name=data["business_name"]).first()
 
-    if not client:
-        new_client = Client(
-            referrer=data["referrer"],
-            business_name=data["business_name"],
-            address=data["address"],
-            delivery_man=data["delivery_man"],
-            registered_on=datetime.datetime.utcnow(),
-        )
-        new_client.save()
-        response_object = {"status": "success", "message": "Successfully saved."}
-        return response_object, 200
-    else:
+        if not client:
+            new_client = Client(
+                referrer=data["referrer"],
+                business_name=data["business_name"],
+                address=data["address"],
+                delivery_man=data["delivery_man"],
+                registered_on=datetime.datetime.utcnow(),
+            )
+            new_client.save()
+            response_object = {"status": "success", "message": "Successfully saved."}
+            return response_object, 200
+        else:
+            response_object = {
+                "status": "fail",
+                "message": "Client already exists.",
+            }
+            return response_object, 409
+    except Exception as e:
         response_object = {
             "status": "fail",
-            "message": "Client already exists.",
+            "message": "Some error occurred. Please try again.",
+            "description": str(e),
         }
-        return response_object, 409
+        return response_object, 500
 
 
 def get_all_clients(request):
-    data = request.args.to_dict()
-    data = ast.literal_eval(str(data).replace("[", "__").replace("]", ""))
-    print(
-        "data after replace: ",
-        data,
-    )
-    all_clients = [client.to_json() for client in Client.objects.filter(**data)]
-    return all_clients
+    try:
+        data = request.args.to_dict()
+        data = ast.literal_eval(str(data).replace("[", "__").replace("]", ""))
+        print(
+            "data after replace: ",
+            data,
+        )
+        all_clients = [client.to_json() for client in Client.objects.filter(**data)]
+        return all_clients
+    except Exception as e:
+        response_object = {
+            "status": "fail",
+            "message": "Some error occurred. Please try again.",
+            "description": str(e),
+        }
+        return response_object, 500
 
 
 def update_client(data):

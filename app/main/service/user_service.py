@@ -8,31 +8,48 @@ from typing import Dict, Tuple
 
 
 def save_new_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
-    user = User.objects(username=data["username"])
-    if not user:
-        new_user = User(
-            email=data["email"],
-            rol=data["rol"],
-            username=data["username"],
-            password=data["password"],
-            public_id=int(uuid.uuid4().int >> 100),
-            registered_on=datetime.datetime.utcnow(),
-        )
-        new_user.save()
-        return generate_token(new_user)
-    else:
+    try:
+        user = User.objects(username=data["username"])
+        if not user:
+            new_user = User(
+                email=data["email"],
+                rol=data["rol"],
+                username=data["username"],
+                password=data["password"],
+                public_id=int(uuid.uuid4().int >> 100),
+                registered_on=datetime.datetime.utcnow(),
+            )
+            new_user.save()
+            return generate_token(new_user)
+        else:
+            response_object = {
+                "status": "fail",
+                "message": "User already exists. Please Log in.",
+            }
+            return response_object, 409
+
+    except Exception as e:
         response_object = {
             "status": "fail",
-            "message": "User already exists. Please Log in.",
+            "message": "Some error occurred. Please try again.",
+            "description": str(e),
         }
-        return response_object, 409
+        return response_object, 500
 
 
 def get_all_users(request):
-    data = request.args.to_dict()
-    data = ast.literal_eval(str(data).replace("[", "__").replace("]", ""))
-    all_users = [user.to_json() for user in User.objects(**request.args)]
-    return all_users
+    try:
+        data = request.args.to_dict()
+        data = ast.literal_eval(str(data).replace("[", "__").replace("]", ""))
+        all_users = [user.to_json() for user in User.objects(**request.args)]
+        return all_users
+    except Exception as e:
+        response_object = {
+            "status": "fail",
+            "message": "Some error occurred. Please try again.",
+            "description": str(e),
+        }
+        return response_object, 500
 
 
 def update_user(data):

@@ -6,23 +6,31 @@ from app.main.model.cash_model import Cash
 
 
 def save_new_record(request):
-    # print(request.headers["Authorization"])
-    data = request.json
-    user = Auth.get_username_by_token(request.headers["Authorization"])
+    try:
+        # print(request.headers["Authorization"])
+        data = request.json
+        user = Auth.get_username_by_token(request.headers["Authorization"])
 
-    new_record = Cash(
-        payment=data["payment"],
-        origin=data["origin"],
-        destiny=data["destiny"],
-        reason=data["reason"],
-        entry_type=data["entry_type"],
-        public_id=int(uuid.uuid4().int >> 100),
-        registered_by=user["username"],
-        registered_on=datetime.datetime.utcnow(),
-    )
-    new_record.save()
-    response_object = {"status": "success", "message": "Successfully saved."}
-    return response_object, 200
+        new_record = Cash(
+            payment=data["payment"],
+            origin=data["origin"],
+            destiny=data["destiny"],
+            reason=data["reason"],
+            entry_type=data["entry_type"],
+            public_id=int(uuid.uuid4().int >> 100),
+            registered_by=user["username"],
+            registered_on=datetime.datetime.utcnow(),
+        )
+        new_record.save()
+        response_object = {"status": "success", "message": "Successfully saved."}
+        return response_object, 200
+    except Exception as e:
+        response_object = {
+            "status": "fail",
+            "message": "Some error occurred. Please try again.",
+            "description": str(e),
+        }
+        return response_object, 500
 
 
 def get_all_records(request):

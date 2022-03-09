@@ -9,32 +9,49 @@ from typing import Dict, Tuple
 
 
 def save_new_supplier(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
-    supplier = Supplier.objects(business_name=data["business_name"]).first()
+    try:
+        supplier = Supplier.objects(business_name=data["business_name"]).first()
 
-    if not supplier:
-        new_supplier = Supplier(
-            referrer=data["referrer"],
-            business_name=data["business_name"],
-            address=data["address"],
-            delivery_man=data["delivery_man"],
-            registered_on=datetime.datetime.utcnow(),
-        )
-        new_supplier.save()
-        response_object = {"status": "success", "message": "Successfully saved."}
-        return response_object, 200
-    else:
+        if not supplier:
+            new_supplier = Supplier(
+                referrer=data["referrer"],
+                business_name=data["business_name"],
+                address=data["address"],
+                delivery_man=data["delivery_man"],
+                registered_on=datetime.datetime.utcnow(),
+            )
+            new_supplier.save()
+            response_object = {"status": "success", "message": "Successfully saved."}
+            return response_object, 200
+        else:
+            response_object = {
+                "status": "fail",
+                "message": "Supplier already exists.",
+            }
+            return response_object, 409
+
+    except Exception as e:
         response_object = {
             "status": "fail",
-            "message": "Supplier already exists.",
+            "message": "Some error occurred. Please try again.",
+            "description": str(e),
         }
-        return response_object, 409
+        return response_object, 500
 
 
 def get_all_suppliers(request):
-    data = request.args.to_dict()
-    data = ast.literal_eval(str(data).replace("[", "__").replace("]", ""))
-    all_suppliers = [supplier.to_json() for supplier in Supplier.objects(**data)]
-    return all_suppliers
+    try:
+        data = request.args.to_dict()
+        data = ast.literal_eval(str(data).replace("[", "__").replace("]", ""))
+        all_suppliers = [supplier.to_json() for supplier in Supplier.objects(**data)]
+        return all_suppliers, 200
+    except Exception as e:
+        response_object = {
+            "status": "fail",
+            "message": "Some error occurred. Please try again.",
+            "description": str(e),
+        }
+        return response_object, 500
 
 
 def update_supplier(data):

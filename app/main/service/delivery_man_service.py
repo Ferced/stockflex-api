@@ -29,13 +29,20 @@ def save_new_delivery_man(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
 
 
 def get_all_delivery_men(request):
-
-    data = request.args.to_dict()
-    data = ast.literal_eval(str(data).replace("[", "__").replace("]", ""))
-    all_delivery_men = [
-        delivery_man.to_json() for delivery_man in DeliveryMan.objects(**data)
-    ]
-    return all_delivery_men
+    try:
+        data = request.args.to_dict()
+        data = ast.literal_eval(str(data).replace("[", "__").replace("]", ""))
+        all_delivery_men = [
+            delivery_man.to_json() for delivery_man in DeliveryMan.objects(**data)
+        ]
+        return all_delivery_men
+    except Exception as e:
+        response_object = {
+            "status": "fail",
+            "message": "Some error occurred. Please try again.",
+            "description": str(e),
+        }
+        return response_object, 500
 
 
 def update_delivery_man(data):
