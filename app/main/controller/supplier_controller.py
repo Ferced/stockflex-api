@@ -1,7 +1,7 @@
 from flask import request
 from flask_restx import Resource
 
-from app.main.util.decorator import admin_token_required
+from app.main.util.decorator import admin_token_required, delivery_man_token_required
 from ..util.dto import SupplierDto
 from ..service.supplier_service import (
     delete_supplier,
@@ -21,7 +21,7 @@ _update_supplier = SupplierDto.update_supplier
 @api.route("/")
 class Supplier(Resource):
     @api.doc("list registered suppliers")
-    @admin_token_required
+    @delivery_man_token_required
     @api.marshal_list_with(_suppliers, envelope="data")
     def get(self):
         """List all registered suppliers"""

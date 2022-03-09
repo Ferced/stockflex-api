@@ -28,6 +28,7 @@ class Auth:
                 return response_object, 401
 
         except Exception as e:
+            print(e)
             response_object = {"status": "fail", "message": "Try again"}
             return response_object, 500
 

@@ -1,7 +1,9 @@
+import ast
 import uuid
 import datetime
 import json
 from app.main import db
+from querystring_parser import parser
 from app.main.model.supplier_model import Supplier
 from typing import Dict, Tuple
 
@@ -29,9 +31,9 @@ def save_new_supplier(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
 
 
 def get_all_suppliers(request):
-    all_suppliers = [
-        supplier.to_json() for supplier in Supplier.objects(**request.args)
-    ]
+    data = request.args.to_dict()
+    data = ast.literal_eval(str(data).replace("[", "__").replace("]", ""))
+    all_suppliers = [supplier.to_json() for supplier in Supplier.objects(**data)]
     return all_suppliers
 
 
@@ -49,6 +51,7 @@ def update_supplier(data):
         response_object = {
             "status": "fail",
             "message": "Some error occurred. Please try again.",
+            "description": str(e),
         }
         return response_object, 500
 
@@ -65,5 +68,6 @@ def delete_supplier(request):
         response_object = {
             "status": "fail",
             "message": "Some error occurred. Please try again.",
+            "description": str(e),
         }
         return response_object, 500

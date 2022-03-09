@@ -19,7 +19,7 @@ class Cash(db.Document):
     origin = db.StringField(required=True)
     destiny = db.StringField(required=True)
     reason = db.StringField(required=True)
-    type = db.StringField(required=True)
+    entry_type = db.StringField(required=True)
     public_id = db.IntField(required=True, unique=True)
     registered_by = db.StringField(required=True)
     registered_on = db.DateTimeField(required=True)
@@ -30,7 +30,7 @@ class Cash(db.Document):
             "origin": self.origin,
             "destiny": self.destiny,
             "reason": self.reason,
-            "type": self.type,
+            "entry_type": self.entry_type,
             "public_id": self.public_id,
             "registered_by": self.registered_by,
             "registered_on": self.registered_on,

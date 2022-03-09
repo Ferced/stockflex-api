@@ -20,6 +20,8 @@ services:
     environment:
       - MONGO_INITDB_DATABASE=reverse-proxy
     volumes:
-      - ../mongodb-docker:/data/db
+      - mongodata:/data/db
     ports:
       - 27017:27017
+volumes:
+  mongodata: {}

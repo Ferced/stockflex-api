@@ -1,6 +1,5 @@
 from flask import request
 from flask_restx import Resource
-
 from app.main.util.decorator import admin_token_required
 from ..util.dto import CashDto
 from ..service.cash_service import (
@@ -21,9 +20,11 @@ _update_record = CashDto.update_record
 @api.route("/")
 class Cash(Resource):
     @api.doc("list registered records")
-    @admin_token_required
+    # @admin_token_required
     @api.marshal_list_with(_records, envelope="data")
     def get(self):
+        # print(request.headers)
+        # print(request.json)
         """List all registered records"""
         return get_all_records(request)
 
@@ -41,6 +42,7 @@ class Cash(Resource):
     def put(self):
         """Update cash records"""
         data = request.json
+        print("data: ", data)
         return update_record(data)
 
     # @api.expect(_update_record, validate=True)

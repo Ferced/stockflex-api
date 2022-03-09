@@ -1,7 +1,7 @@
 from flask import request
 from flask_restx import Resource
 
-from app.main.util.decorator import admin_token_required
+from app.main.util.decorator import admin_token_required, delivery_man_token_required
 from ..util.dto import ClientDto
 from ..service.client_service import (
     delete_client,
@@ -21,7 +21,7 @@ _update_client = ClientDto.update_client
 @api.route("/")
 class Client(Resource):
     @api.doc("list registered clients")
-    @admin_token_required
+    @delivery_man_token_required
     @api.marshal_list_with(_clients, envelope="data")
     def get(self):
         """List all registered clients"""

@@ -1,53 +1,54 @@
+from logging import exception
 import uuid
 import datetime
-import json
-from app.main import db
-from app.main.model.client_model import Client
-from typing import Dict, Tuple
+from app.main.model.product_model import Product
+from app.main.helpers.auth_helper import Auth
 import ast
 
+# from typing import Dict, Tuple
 
-def save_new_client(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
-    client = Client.objects(business_name=data["business_name"]).first()
 
-    if not client:
-        new_client = Client(
-            referrer=data["referrer"],
-            business_name=data["business_name"],
-            address=data["address"],
-            delivery_man=data["delivery_man"],
+def save_new_product(request):
+    data = request.json
+    product = Product.objects(name=data["name"]).first()
+    user = Auth.get_username_by_token(request.headers["Authorization"])
+    if not product:
+        new_product = Product(
+            name=data["name"],
+            min_price=data["min_price"],
+            max_price=data["max_price"],
+            unit_type=data["unit_type"],
+            public_id=int(uuid.uuid4().int >> 100),
+            registered_by=user["username"],
             registered_on=datetime.datetime.utcnow(),
         )
-        new_client.save()
+        new_product.save()
         response_object = {"status": "success", "message": "Successfully saved."}
         return response_object, 200
     else:
         response_object = {
             "status": "fail",
-            "message": "Client already exists.",
+            "message": "Product already exists.",
         }
         return response_object, 409
 
 
-def get_all_clients(request):
+def get_all_products(request):
     data = request.args.to_dict()
     data = ast.literal_eval(str(data).replace("[", "__").replace("]", ""))
-    print(
-        "data after replace: ",
-        data,
-    )
-    all_clients = [client.to_json() for client in Client.objects.filter(**data)]
-    return all_clients
+    all_products = [product.to_json() for product in Product.objects.filter(**data)]
+    return all_products
 
 
-def update_client(data):
+def update_product(data):
     try:
-        client_to_update = Client.objects(business_name=data["business_name"]).first()
-        client_to_update.update(**data)
-        client_to_update.save()
+        product_to_update = Product.objects(name=data["name"]).first()
+        product_to_update.update(**data)
+        product_to_update.save()
         response_object = {"status": "success", "message": "Successfully updated."}
         return response_object, 200
     except Exception as e:
+        # traceback.print_exc()
         print(e)
         response_object = {
             "status": "fail",
@@ -57,11 +58,10 @@ def update_client(data):
         return response_object, 500
 
 
-def delete_client(request):
-
+def delete_product(request):
     try:
-        client_to_delete = Client.objects(**request.args)
-        client_to_delete.delete()
+        product_to_delete = Product.objects(**request.args)
+        product_to_delete.delete()
         response_object = {"status": "success", "message": "Successfully deleted."}
         return response_object, 200
     except Exception as e:

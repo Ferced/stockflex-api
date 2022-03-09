@@ -1,10 +1,8 @@
+import ast
 import uuid
-import datetime
-import json
-from app.main import db
+from datetime import datetime, timedelta
 from app.main.helpers.auth_helper import Auth
 from app.main.model.cash_model import Cash
-from typing import Dict, Tuple
 
 
 def save_new_record(request):
@@ -17,7 +15,7 @@ def save_new_record(request):
         origin=data["origin"],
         destiny=data["destiny"],
         reason=data["reason"],
-        type=data["type"],
+        entry_type=data["entry_type"],
         public_id=int(uuid.uuid4().int >> 100),
         registered_by=user["username"],
         registered_on=datetime.datetime.utcnow(),
@@ -28,14 +26,27 @@ def save_new_record(request):
 
 
 def get_all_records(request):
-    all_records = [record.to_json() for record in Cash.objects(**request.args)]
+    data = request.args.to_dict()
+    if "registered_on" in data:
+        date_from = datetime.strptime(data["registered_on"], "%d/%m/%Y")
+        date_to = datetime.strptime(data["registered_on"], "%d/%m/%Y") + timedelta(
+            days=1
+        )
+        data["registered_on__gte"] = date_from.strftime("%Y-%-m-%-d %H:%M:%S")
+        data["registered_on__lte"] = date_to.strftime("%Y-%-m-%-d %H:%M:%S")
+        del data["registered_on"]
+
+    data = ast.literal_eval(str(data).replace("[", "__").replace("]", ""))
+    all_records = [record.to_json() for record in Cash.objects(**data)]
     return all_records
 
 
 def update_record(data):
     try:
         record_to_update = Cash.objects(public_id=data["public_id"]).first()
+        print("PRESAVE")
         record_to_update.update(**data)
+        print("PRESAVE")
         record_to_update.save()
         response_object = {"status": "success", "message": "Successfully updated."}
         return response_object, 200
@@ -44,6 +55,7 @@ def update_record(data):
         response_object = {
             "status": "fail",
             "message": "Some error occurred. Please try again.",
+            "description": str(e),
         }
         return response_object, 500
 
@@ -60,5 +72,6 @@ def delete_record(request):
         response_object = {
             "status": "fail",
             "message": "Some error occurred. Please try again.",
+            "description": str(e),
         }
         return response_object, 500

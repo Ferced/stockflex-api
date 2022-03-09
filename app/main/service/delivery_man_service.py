@@ -1,9 +1,8 @@
 import uuid
 import datetime
-import json
-from app.main import db
 from app.main.model.delivery_man_model import DeliveryMan
 from typing import Dict, Tuple
+import ast
 
 
 def save_new_delivery_man(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
@@ -30,8 +29,11 @@ def save_new_delivery_man(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
 
 
 def get_all_delivery_men(request):
+
+    data = request.args.to_dict()
+    data = ast.literal_eval(str(data).replace("[", "__").replace("]", ""))
     all_delivery_men = [
-        delivery_man.to_json() for delivery_man in DeliveryMan.objects(**request.args)
+        delivery_man.to_json() for delivery_man in DeliveryMan.objects(**data)
     ]
     return all_delivery_men
 
@@ -55,6 +57,7 @@ def update_delivery_man(data):
         response_object = {
             "status": "fail",
             "message": "Some error occurred. Please try again.",
+            "description": str(e),
         }
         return response_object, 500
 
@@ -70,5 +73,6 @@ def delete_delivery_man(request):
         response_object = {
             "status": "fail",
             "message": "Some error occurred. Please try again.",
+            "description": str(e),
         }
         return response_object, 500

@@ -1,3 +1,4 @@
+import ast
 import uuid
 import datetime
 
@@ -28,6 +29,8 @@ def save_new_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
 
 
 def get_all_users(request):
+    data = request.args.to_dict()
+    data = ast.literal_eval(str(data).replace("[", "__").replace("]", ""))
     all_users = [user.to_json() for user in User.objects(**request.args)]
     return all_users
 
@@ -48,6 +51,7 @@ def update_user(data):
         response_object = {
             "status": "fail",
             "message": "Some error occurred. Please try again.",
+            "description": str(e),
         }
         return response_object, 500
 
@@ -64,6 +68,7 @@ def delete_user(request):
         response_object = {
             "status": "fail",
             "message": "Some error occurred. Please try again.",
+            "description": str(e),
         }
         return response_object, 500
 
@@ -82,5 +87,6 @@ def generate_token(user: User) -> Tuple[Dict[str, str], int]:
         response_object = {
             "status": "fail",
             "message": "Some error occurred. Please try again.",
+            "description": str(e),
         }
         return response_object, 500

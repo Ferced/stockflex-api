@@ -29,7 +29,7 @@ class User(Resource):
     @api.expect(_user, validate=True)
     @api.response(201, "User successfully created.")
     @api.doc("create a new user")
-    @admin_token_required
+    # @admin_token_required
     def post(self) -> Tuple[Dict[str, str], int]:
         """Creates a new User"""
         data = request.json

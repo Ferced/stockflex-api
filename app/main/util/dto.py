@@ -117,6 +117,21 @@ class ClientDto:
     )
 
 
+class ProductDto:
+    api = Namespace("product", description="product related operations")
+    product = api.model(
+        "product",
+        {
+            "name": fields.String(required=True, description="product name"),
+            "max_price": fields.Float(required=True, description="max price"),
+            "min_price": fields.Float(required=True, description="min price"),
+            "unit_type": fields.String(
+                required=True, description="shipment type, for example kg or boxes"
+            ),
+        },
+    )
+
+
 class SupplierDto:
     api = Namespace("supplier", description="supplier related operations")
     referrer = api.model(
@@ -149,6 +164,7 @@ class SupplierDto:
             "delivery_man": fields.String(required=True, description="user password"),
         },
     )
+
     suppliers = api.model(
         "suppliers",
         {
@@ -188,19 +204,28 @@ class StockDto:
         },
     )
 
+    products = api.model(
+        "products",
+        {
+            "name": fields.String(
+                required=True,
+                description="product name, for example: fish, another class of fish, etc..",
+            ),
+            "amount": fields.Integer(required=True, description="amount of product"),
+            "amount_type": fields.String(required=True, description="amount type"),
+            "price_type": fields.Float(required=True, description="price type"),
+        },
+    )
     stock = api.model(
         "stock",
         {
-            "product_name": fields.String(required=True, description="product name"),
-            "amount": fields.Float(required=True, description="amount of product"),
-            "amount_type": fields.String(
-                required=True, description="type of measure, for example boxes or kg"
-            ),
+            "products": fields.List(fields.Nested(products), description="products"),
             "payment": fields.Nested(
                 payment, required=True, description="payment details"
             ),
+            "payment_id": fields.Integer(description="payment id"),
             "business_name": fields.String(required=True, description="business name"),
-            "entry_type": fields.Boolean(required=True, description="Type of entry"),
+            "entry_type": fields.String(required=True, description="Type of entry"),
             "public_id": fields.Integer(description="publid id"),
             "registered_by": fields.String(description="who created this entry"),
             "registered_on": fields.DateTime(description="when was the entry created"),
@@ -209,16 +234,16 @@ class StockDto:
     update_stock = api.model(
         "update_stock",
         {
-            "product_name": fields.String(required=True, description="product name"),
-            "amount": fields.Float(required=True, description="amount of product"),
-            "amount_type": fields.String(
-                required=True, description="type of measure, for example boxes or kg"
-            ),
+            "products": fields.List(fields.Nested(products), description="products"),
             "payment": fields.Nested(
                 payment, required=True, description="payment details"
             ),
+            "payment_id": fields.Integer(description="payment id"),
             "business_name": fields.String(required=True, description="business name"),
-            "entry_type": fields.Boolean(required=True, description="Type of entry"),
+            "entry_type": fields.String(required=True, description="Type of entry"),
+            "public_id": fields.Integer(description="publid id"),
+            "registered_by": fields.String(description="who created this entry"),
+            "registered_on": fields.DateTime(description="when was the entry created"),
         },
     )
 
@@ -283,7 +308,7 @@ class CashDto:
             "reason": fields.String(required=True, description="reason"),
             "destiny": fields.String(required=True, description="origin"),
             "origin": fields.String(required=True, description="origin"),
-            "type": fields.String(required=True, description="Type of record"),
+            "entry_type": fields.String(required=True, description="Type of record"),
             "public_id": fields.Integer(description="public id"),
             "registered_by": fields.String(description="who created this entry"),
             "registered_on": fields.DateTime(description="when was the entry created"),
@@ -297,7 +322,7 @@ class CashDto:
             "reason": fields.String(description="reason"),
             "destiny": fields.String(description="destiny"),
             "origin": fields.String(description="origin"),
-            "type": fields.String(description="Type of record"),
+            "entry_type": fields.String(description="Type of record"),
             "public_id": fields.Integer(description="public id"),
             "registered_by": fields.String(description="who created this entry"),
             "registered_on": fields.DateTime(description="when was the entry created"),
@@ -313,7 +338,7 @@ class CashDto:
             "reason": fields.String(required=True, description="reason"),
             "destiny": fields.String(required=True, description="destiny"),
             "origin": fields.String(required=True, description="origin"),
-            "type": fields.Boolean(required=True, description="Type of record"),
+            "entry_type": fields.Boolean(required=True, description="Type of record"),
             "public_id": fields.Integer(description="public id"),
             "registered_by": fields.String(description="who created this entry"),
             "registered_on": fields.DateTime(description="when was the entry created"),
