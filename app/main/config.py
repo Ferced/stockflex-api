@@ -15,6 +15,9 @@ class DevelopmentConfig(Config):
     MONGODB_HOST = "localhost"
     MONGODB_PORT = 27017
     MONGODB_NAME = "reverse-proxy-dev"
+    MONGODB_USERNAME = ""
+    MONGODB_PASSWORD = ""
+    MONGODB_AUTH_SOURCE = ""
     REDIS_HOST = "redis"
     REDIS_PORT = "6379"
 
@@ -25,6 +28,9 @@ class TestingConfig(Config):
     MONGODB_HOST = "localhost"
     MONGODB_PORT = 27017
     MONGODB_NAME = "reverse-proxy-test"
+    MONGODB_USERNAME = ""
+    MONGODB_PASSWORD = ""
+    MONGODB_AUTH_SOURCE = ""
     REDIS_HOST = "localhost"
     REDIS_PORT = "6379"
     PRESERVE_CONTEXT_ON_EXCEPTION = False
@@ -34,6 +40,9 @@ class ProductionConfig(Config):
     MONGODB_HOST = "mongodb"
     MONGODB_PORT = 27017
     MONGODB_NAME = "reverse-proxy-prod"
+    MONGODB_USERNAME = ""
+    MONGODB_PASSWORD = ""
+    MONGODB_AUTH_SOURCE = ""
     REDIS_HOST = "redis"
     REDIS_PORT = "6379"
     DEBUG = False
