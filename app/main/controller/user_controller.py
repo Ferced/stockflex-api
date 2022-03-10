@@ -41,6 +41,7 @@ class User(Resource):
     def put(self):
         """update user"""
         data = request.json
+        print("data: ", data)
         return update_user(data)
 
     # @api.expect(_update_user, validate=True)
