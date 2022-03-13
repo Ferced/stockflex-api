@@ -13,7 +13,7 @@ This is the api made for cornalito.
 
 * [Python](https://python.org)
 * [Flask](https://flask.palletsprojects.com/en/2.0.x/)
-* [Redis](https://redis.io/)
+<!-- * [Redis](https://redis.io/) -->
 * [Mongodb](https://www.mongodb.com)
 
 

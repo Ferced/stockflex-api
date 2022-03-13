@@ -19,7 +19,7 @@ api = Api(
     blueprint,
     title="conrnalito-api",
     version="1.0",
-    description="reverse proxy para la api de mercado libre",
+    description="api for cornalito distribution",
 )
 
 # api.add_namespace(access_logs_ns, path="/proxy")

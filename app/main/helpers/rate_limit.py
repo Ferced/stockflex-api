@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
-from .. import redis_client
+
+# from .. import redis_client
 import json
 from app.main.helpers.constants.constants_general import LimiterConstants
 
