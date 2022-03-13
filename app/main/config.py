@@ -16,7 +16,6 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    MONGODB_HOST = os.environ["MONGO_HOST"]
     MONGODB_PORT = int(os.environ["MONGO_PORT"])
     MONGODB_NAME = os.environ["MONGO_DB"]
     MONGODB_USERNAME = os.environ["MONGO_USERNAME"]
@@ -29,7 +28,6 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     DEBUG = True
     TESTING = True
-    MONGODB_HOST = os.environ["MONGO_HOST"]
     MONGODB_PORT = int(os.environ["MONGO_PORT"])
     MONGODB_NAME = os.environ["MONGO_DB"]
     MONGODB_USERNAME = os.environ["MONGO_USERNAME"]
@@ -41,7 +39,6 @@ class TestingConfig(Config):
 
 
 class ProductionConfig(Config):
-    MONGODB_HOST = os.environ["MONGO_HOST"]
     MONGODB_PORT = int(os.environ["MONGO_PORT"])
     MONGODB_NAME = os.environ["MONGO_DB"]
     MONGODB_USERNAME = os.environ["MONGO_USERNAME"]
