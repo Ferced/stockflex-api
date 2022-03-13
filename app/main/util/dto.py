@@ -284,6 +284,10 @@ class DeliveryManDto:
     )
 
 
+class PingDto:
+    api = Namespace("ping", description="health checker")
+
+
 class CashDto:
     api = Namespace("cash", description="cash related operations")
 

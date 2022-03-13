@@ -3,6 +3,7 @@ from flask import Blueprint
 
 # from .main.controller.proxy_controller import api as proxy_ns
 # from .main.controller.access_logs_controller import api as access_logs_ns
+from .main.controller.general_controller import api as general_ns
 from .main.controller.user_controller import api as user_ns
 from .main.controller.client_controller import api as client_ns
 from .main.controller.supplier_controller import api as supplier_ns
@@ -22,6 +23,7 @@ api = Api(
 )
 
 # api.add_namespace(access_logs_ns, path="/proxy")
+api.add_namespace(general_ns, path="/ping")
 api.add_namespace(user_ns, path="/user")
 api.add_namespace(client_ns, path="/client")
 api.add_namespace(supplier_ns, path="/supplier")
