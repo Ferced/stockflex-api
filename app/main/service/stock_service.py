@@ -56,7 +56,7 @@ def save_new_stock(request):
                     entry_type=data["entry_type"],
                     public_id=int(uuid.uuid4().int >> 100),
                     registered_by=user["username"],
-                    registered_on=datetime.datetime.utcnow(),
+                    registered_on=datetime.utcnow(),
                 )
                 new_stock.save()
 
