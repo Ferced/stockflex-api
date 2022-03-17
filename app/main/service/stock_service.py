@@ -24,7 +24,7 @@ def save_new_record(data, user):
             entry_type=data["entry_type"],
             public_id=public_id,
             registered_by=user["username"],
-            registered_on=datetime.datetime.utcnow(),
+            registered_on=datetime.utcnow(),
         )
         new_record.save()
         return public_id
