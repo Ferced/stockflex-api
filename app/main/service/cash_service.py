@@ -7,7 +7,6 @@ from app.main.model.cash_model import Cash
 
 def save_new_record(request):
     try:
-        # print(request.headers["Authorization"])
         data = request.json
         user = Auth.get_username_by_token(request.headers["Authorization"])
 
@@ -52,14 +51,11 @@ def get_all_records(request):
 def update_record(data):
     try:
         record_to_update = Cash.objects(public_id=data["public_id"]).first()
-        print("PRESAVE")
         record_to_update.update(**data)
-        print("PRESAVE")
         record_to_update.save()
         response_object = {"status": "success", "message": "Successfully updated."}
         return response_object, 200
     except Exception as e:
-        print(e)
         response_object = {
             "status": "fail",
             "message": "Some error occurred. Please try again.",
@@ -76,7 +72,6 @@ def delete_record(request):
         response_object = {"status": "success", "message": "Successfully deleted."}
         return response_object, 200
     except Exception as e:
-        print(e)
         response_object = {
             "status": "fail",
             "message": "Some error occurred. Please try again.",

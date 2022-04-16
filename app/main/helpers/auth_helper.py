@@ -8,15 +8,10 @@ class Auth:
     def login_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
         try:
             # fetch the user data
-            print("Data: ", data)
-
             try:
                 user = User.objects(username=data["username"]).first()
             except Exception as e:
-                print("Exception: ", e)
                 return {"message": "Invalid credentials"}, 401
-
-            print("USER FOUND: ", user.to_json())
             if user and user.check_password(data["password"]):
                 auth_token = User.encode_auth_token(user.public_id)
                 if auth_token:
@@ -35,7 +30,6 @@ class Auth:
                 return response_object, 401
 
         except Exception as e:
-            print("error: ", e)
             response_object = {"status": "fail", "message": "Try again"}
             return response_object, 500
 

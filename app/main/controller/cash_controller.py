@@ -23,8 +23,6 @@ class Cash(Resource):
     # @admin_token_required
     @api.marshal_list_with(_records, envelope="data")
     def get(self):
-        # print(request.headers)
-        # print(request.json)
         """List all registered records"""
         return get_all_records(request)
 
@@ -42,7 +40,6 @@ class Cash(Resource):
     def put(self):
         """Update cash records"""
         data = request.json
-        print("data: ", data)
         return update_record(data)
 
     # @api.expect(_update_record, validate=True)

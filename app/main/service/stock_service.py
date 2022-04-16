@@ -45,7 +45,6 @@ def save_new_stock(request):
         try:
             if data["entry_type"] == "pago":
                 business = Supplier.objects(business_name=data["business_name"]).first()
-                print("BUSINESS: ", business)
             else:
                 business = Client.objects(business_name=data["business_name"]).first()
             if business:
@@ -72,7 +71,6 @@ def save_new_stock(request):
             }
             return response_object, 200
         except Exception as e:
-            print(e)
             response_object = {
                 "status": "fail",
                 "message": "Some error occurred. Please try again.",
@@ -127,7 +125,6 @@ def update_stock(data):
         del data["registered_on"]
         del data["registered_by"]
         try:
-            # print("DATA RECEIBED: ", data)
             cash_to_update = Cash.objects(public_id=data["payment_id"]).first()
             cash_to_update.update(**payment_data)
             cash_to_update.save()
@@ -140,7 +137,6 @@ def update_stock(data):
             response_object = {"status": "success", "message": "Successfully updated."}
             return response_object, 200
         except Exception as e:
-            print(e)
             response_object = {
                 "status": "fail",
                 "message": "Some error occurred. Please try again.",
@@ -164,7 +160,6 @@ def delete_stock(request):
         return response_object, 200
 
     except Exception as e:
-        print(e)
         response_object = {
             "status": "fail",
             "message": "Some error occurred. Please try again.",

@@ -42,10 +42,6 @@ def get_all_clients(request):
     try:
         data = request.args.to_dict()
         data = ast.literal_eval(str(data).replace("[", "__").replace("]", ""))
-        print(
-            "data after replace: ",
-            data,
-        )
         all_clients = [client.to_json() for client in Client.objects.filter(**data)]
         return all_clients
     except Exception as e:
@@ -65,7 +61,6 @@ def update_client(data):
         response_object = {"status": "success", "message": "Successfully updated."}
         return response_object, 200
     except Exception as e:
-        print(e)
         response_object = {
             "status": "fail",
             "message": "Some error occurred. Please try again.",
@@ -82,7 +77,6 @@ def delete_client(request):
         response_object = {"status": "success", "message": "Successfully deleted."}
         return response_object, 200
     except Exception as e:
-        print(e)
         response_object = {
             "status": "fail",
             "message": "Some error occurred. Please try again.",

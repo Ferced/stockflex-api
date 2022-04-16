@@ -81,7 +81,6 @@ def delete_user(request):
         response_object = {"status": "success", "message": "Successfully deleted."}
         return response_object, 200
     except Exception as e:
-        print(e)
         response_object = {
             "status": "fail",
             "message": "Some error occurred. Please try again.",
