@@ -90,6 +90,7 @@ class ClientDto:
             ),
             "business_name": fields.String(required=True, description="business name"),
             "address": fields.Nested(address, description="business address"),
+            "debt_limit": fields.Integer(required=True, description="debt limit"),
             "delivery_man": fields.String(required=True, description="user password"),
         },
     )
@@ -101,6 +102,7 @@ class ClientDto:
             ),
             "business_name": fields.String(required=True, description="business name"),
             "address": fields.Nested(address, description="business address"),
+            "debt_limit": fields.Integer(required=True, description="debt limit"),
             "delivery_man": fields.String(required=True, description="user password"),
         },
     )
@@ -112,6 +114,7 @@ class ClientDto:
             ),
             "business_name": fields.String(required=True, description="business name"),
             "address": fields.Nested(address, description="business address"),
+            "debt_limit": fields.Integer(required=True, description="debt limit"),
             "delivery_man": fields.String(required=True, description="user password"),
         },
     )
@@ -125,6 +128,22 @@ class ProductDto:
             "name": fields.String(required=True, description="product name"),
             "max_price": fields.Float(required=True, description="max price"),
             "min_price": fields.Float(required=True, description="min price"),
+            "unit_type": fields.String(
+                required=True, description="shipment type, for example kg or boxes"
+            ),
+        },
+    )
+
+
+class SupplierProductDto:
+    api = Namespace("product", description="product related operations")
+    product = api.model(
+        "product",
+        {
+            "name": fields.String(required=True, description="product name"),
+            "price": fields.Float(required=True, description="max price"),
+            "supplier_name": fields.String(required=True, description="supplier name"),
+            "public_id": fields.Integer(description="supplier id"),
             "unit_type": fields.String(
                 required=True, description="shipment type, for example kg or boxes"
             ),
@@ -161,6 +180,7 @@ class SupplierDto:
             ),
             "business_name": fields.String(required=True, description="business name"),
             "address": fields.Nested(address, description="business address"),
+            "debt_limit": fields.Integer(required=True, description="debt limit"),
             "delivery_man": fields.String(required=True, description="user password"),
         },
     )
@@ -173,6 +193,7 @@ class SupplierDto:
             ),
             "business_name": fields.String(required=True, description="business name"),
             "address": fields.Nested(address, description="business address"),
+            "debt_limit": fields.Integer(required=True, description="debt limit"),
             "delivery_man": fields.String(required=True, description="user password"),
         },
     )
@@ -184,6 +205,7 @@ class SupplierDto:
             ),
             "business_name": fields.String(required=True, description="business name"),
             "address": fields.Nested(address, description="business address"),
+            "debt_limit": fields.Integer(required=True, description="debt limit"),
             "delivery_man": fields.String(required=True, description="user password"),
         },
     )
@@ -213,7 +235,7 @@ class StockDto:
             ),
             "amount": fields.Integer(required=True, description="amount of product"),
             "amount_type": fields.String(required=True, description="amount type"),
-            "price_type": fields.Float(required=True, description="price type"),
+            "price": fields.Float(required=True, description="price"),
         },
     )
     stock = api.model(

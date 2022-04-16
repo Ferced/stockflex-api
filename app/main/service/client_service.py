@@ -17,6 +17,7 @@ def save_new_client(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
                 business_name=data["business_name"],
                 address=data["address"],
                 delivery_man=data["delivery_man"],
+                debt_limit=data["debt_limit"],
                 registered_on=datetime.datetime.utcnow(),
             )
             new_client.save()

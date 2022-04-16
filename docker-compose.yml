@@ -18,10 +18,13 @@ services:
     image: "mongo:latest"
     hostname: "mongodb"
     environment:
-      - MONGO_INITDB_DATABASE=reverse-proxy
+      - MONGO_INITDB_DATABASE=test
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+
     volumes:
-      - mongodata:/data/db
+      - cornalitodb:/data/db
     ports:
       - 27017:27017
 volumes:
-  mongodata: {}
+  cornalitodb: {}

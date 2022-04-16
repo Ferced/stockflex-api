@@ -32,6 +32,7 @@ class Supplier(db.Document):
     business_name = db.StringField(required=True, unique=True)
     address = db.EmbeddedDocumentField(Address, required=True)
     delivery_man = db.StringField(required=True)
+    debt_limit = db.IntField(required=True)
     registered_on = db.DateTimeField(required=True)
 
     def to_json(self):
@@ -40,4 +41,5 @@ class Supplier(db.Document):
             "business_name": self.business_name,
             "address": self.address.to_json(),
             "delivery_man": self.delivery_man,
+            "debt_limit": self.debt_limit,
         }

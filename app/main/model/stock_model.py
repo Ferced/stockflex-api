@@ -5,14 +5,14 @@ class Products(db.EmbeddedDocument):
     name = db.StringField(required=True)
     amount = db.DecimalField(required=True)
     amount_type = db.StringField(required=True)
-    price_type = db.DecimalField(required=True)
+    price = db.DecimalField(required=True)
 
     def to_json(self):
         return {
             "name": self.name,
             "amount": self.amount,
             "amount_type": self.amount_type,
-            "price_type": self.price_type,
+            "price": self.price,
         }
 
 
