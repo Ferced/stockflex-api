@@ -1,12 +1,12 @@
-# cornalito-api
+# stockflex-api
 
-![Github last commit](https://img.shields.io/github/last-commit/ferced/cornalito-api)
+![Github last commit](https://img.shields.io/github/last-commit/ferced/stockflex-api)
 
 
 
 # About the project
  
-This is the api made for cornalito.
+This is the api made for stockflex.
 
 
 ### Built With
@@ -31,7 +31,7 @@ We will be using docker and docker-compose.
 
 1. Clone the repo
   ```sh
-  git clone https://github.com/ferced/cornalito-api.git
+  git clone https://github.com/ferced/stockflex-api.git
   ```
 2. cd Into the repository folder
   ```sh
